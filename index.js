@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const app = express();
 const port = 3000;
 const cors = require('cors'); // Import the cors package
-const ExcelService = require('./src/services/fileservice');
+const ExcelService = require('./fileservice');
 
 //Array
 let participants = [];
@@ -116,5 +116,4 @@ app.get('/read-excel', async (req, res) => {
         res.status(500).send('Error reading Excel file');
     }
 });
-
 module.exports=app
