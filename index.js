@@ -116,3 +116,5 @@ app.get('/read-excel', async (req, res) => {
         res.status(500).send('Error reading Excel file');
     }
 });
+
+module.exports=app
