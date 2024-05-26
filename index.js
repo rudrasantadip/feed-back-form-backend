@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
-const port = process.env.PORT || 3000;
+const port = 3000;
 const cors = require('cors'); // Import the cors package
 const ExcelService = require('./src/services/fileservice');
 
@@ -59,7 +59,6 @@ app.get('/participants', (req, res) => {
 
 //Function for verifying token recieved from client
 const getTokenScore = (req, res) => {
-    // const secretKey ="6LeF2eMpAAAAAHwNPUZE3cl3BDPE9Uf396K0r4wu"
     const secretKey="6LeF2eMpAAAAAHwNPUZE3cl3BDPE9Uf396K0r4wu"
     const token = req.body.token;
     const url = `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${token}`;
