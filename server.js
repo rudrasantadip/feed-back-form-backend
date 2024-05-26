@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const app = express();
 const port = process.env.PORT || 3000;
 const cors = require('cors'); // Import the cors package
-const ExcelService = require('./services/fileservice');
+const ExcelService = require('./src/services/fileservice');
 
 //Array
 let participants = [];
