@@ -75,12 +75,10 @@ const getTokenScore = (req, res) => {
 app.post('/captcha/verify', getTokenScore)
 
 
-//FILE SAVING SERVICES
 
-// {
-//     "filename":"adcomsys.xlsx",
-//     "worksheets":["Flutter Fiesta","Poster Compedition","Coders Brawl","Wisdom War"]
-// }
+//FILE SAVING APIS
+
+//method to create an excel file
 app.get('/create-excel', async (req, res) => {
     
     const filename = req.body.filename;
@@ -92,17 +90,13 @@ app.get('/create-excel', async (req, res) => {
         console.error('Error:', error);
         res.status(500).send('Error creating Excel file');
     }
-
-
-   
-
 });
 
 //Saving participant to worksheet
 app.post('/add-data', async (req,res)=>
 {
     try{
-        await ExcelService.addData(req.body,"adcomsys.xlsx","Flutter Fiesta")
+        await ExcelService.addData(req.body,"adcomsys.xlsx",req.body.EventName)
         res.send("success");
     } catch(error)
     {
