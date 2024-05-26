@@ -60,7 +60,7 @@ app.get('/participants', (req, res) => {
 //Function for verifying token recieved from client
 const getTokenScore = (req, res) => {
     // const secretKey ="6LeF2eMpAAAAAHwNPUZE3cl3BDPE9Uf396K0r4wu"
-    const secretKey=process.env.SITE_KEY
+    const secretKey="6LeF2eMpAAAAAHwNPUZE3cl3BDPE9Uf396K0r4wu"
     const token = req.body.token;
     const url = `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${token}`;
 
