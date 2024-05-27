@@ -45,10 +45,16 @@ app.get('/', (req, res) => {
 //PostMapping Request Setup
 
 //save an individual participant
-app.post('/participants/save', (req, res) => {
+app.post('/participants/save', async (req, res) => {
     const participant = req.body;
-    participants.push(participant);
-    res.status(201).send(participant);
+
+    try {
+        await ExcelService.addData(participant, "adcomsys.xlsx", String(participant.EventName).toUpperCase()) // Adding data to sheet
+        res.send("success");
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).send('Error adding data');
+    }
 });
 
 // Get All Participants
@@ -59,14 +65,14 @@ app.get('/participants', (req, res) => {
 
 //Function for verifying token recieved from client
 const getTokenScore = (req, res) => {
-    const secretKey="6LeF2eMpAAAAAHwNPUZE3cl3BDPE9Uf396K0r4wu"
+    const secretKey = "6LeF2eMpAAAAAHwNPUZE3cl3BDPE9Uf396K0r4wu"
     const token = req.body.token;
     const url = `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${token}`;
 
     fetch(url, { method: 'post' })
         .then(response => response.json())
         .then(google_response => {
-            res.send( {"score":google_response['score']})
+            res.send({ "score": google_response['score'] })
         })
         .catch(error => res.json({ error }));
 }
@@ -79,11 +85,11 @@ app.post('/captcha/verify', getTokenScore)
 
 //method to create an excel file
 app.get('/create-excel', async (req, res) => {
-    
+
     const filename = req.body.filename;
     const worksheets = req.body.worksheets;
     try {
-        await ExcelService.createWorkBook(filename,worksheets)
+        await ExcelService.createWorkBook(filename, worksheets)
         res.send('Excel file created successfully!');
     } catch (error) {
         console.error('Error:', error);
@@ -92,28 +98,31 @@ app.get('/create-excel', async (req, res) => {
 });
 
 //Saving participant to worksheet
-app.post('/add-data', async (req,res)=>
-{
-    try{
-        await ExcelService.addData(req.body,"adcomsys.xlsx",req.body.EventName)
+app.post('/add-data', async (req, res) => {
+    try {
+        await ExcelService.addData(req.body, "adcomsys.xlsx", String(data.EventName).toUpperCase()) // Adding data to sheet
         res.send("success");
-    } catch(error)
-    {
+    } catch (error) {
         console.error('Error:', error);
         res.status(500).send('Error adding data');
     }
 });
 
 
-app.get('/read-excel', async (req, res) => {
-    const filename = 'example.xlsx';
+app.get('/read-excel/:sheetname', async (req, res) => {
+
+    const pathParam = req.params.sheetname;
+    
+    console.log();
+    const filename = 'adcomsys.xlsx';
+    const sheetname = String(pathParam).toUpperCase();
 
     try {
-        const rows = await ExcelService.readExcelFile(filename);
+        const rows = await ExcelService.readExcelFile(filename, sheetname);
         res.json(rows);
     } catch (error) {
         console.error('Error:', error);
         res.status(500).send('Error reading Excel file');
     }
 });
-module.exports=app
+module.exports = app
