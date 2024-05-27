@@ -11,7 +11,7 @@ let participants = [];
 
 //CORS CONFIG
 const corsOptions = {
-    origin: 'http://localhost:4200', // Allow only this origin
+    origin: ['http://localhost:4200','https://feed-back-form.vercel.app'], // Allow only this origin
     methods: 'GET,HEAD,POST', // Allow specific methods
     credentials: true, // Allow cookies to be sent
     optionsSuccessStatus: 204 // Some legacy browsers (IE11, various SmartTVs) choke on 204
