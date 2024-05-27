@@ -100,7 +100,7 @@ app.get('/create-excel', async (req, res) => {
 //Saving participant to worksheet
 app.post('/add-data', async (req, res) => {
     try {
-        await ExcelService.addData(req.body, "adcomsys.xlsx", String(data.EventName).toUpperCase()) // Adding data to sheet
+        await ExcelService.addData(req.body, "adcomsys.xlsx", String(req.body.EventName).toUpperCase()) // Adding data to sheet
         res.send("success");
     } catch (error) {
         console.error('Error:', error);
