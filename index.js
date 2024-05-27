@@ -50,10 +50,10 @@ app.post('/participants/save', async (req, res) => {
 
     try {
         await ExcelService.addData(participant, "adcomsys.xlsx", String(participant.EventName).toUpperCase()) // Adding data to sheet
-        res.send("success");
+        res.send({status:"success"});
     } catch (error) {
         console.error('Error:', error);
-        res.status(500).send('Error adding data');
+        res.status(500).send({status:"failure"});
     }
 });
 
